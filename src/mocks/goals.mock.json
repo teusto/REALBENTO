@@ -1,0 +1,62 @@
+[
+    {
+        "name": "Read 20 pages",
+        "size": "s",
+        "description": "Read at least 20 pages of a technical or personal development book.",
+        "box": 1
+    },
+    {
+        "name": "Morning workout",
+        "size": "m",
+        "description": "Complete a 45-minute strength or cardio workout session.",
+        "box": 1
+    },
+    {
+        "name": "Build side project MVP",
+        "size": "l",
+        "description": "Develop and deploy the first working version of a side project.",
+        "box": 2
+    },
+    {
+        "name": "Write daily journal",
+        "size": "s",
+        "description": "Write a reflective journal entry summarizing the day.",
+        "box": 2
+    },
+    {
+        "name": "Refactor authentication module",
+        "size": "m",
+        "description": "Improve structure, readability, and error handling of the auth module.",
+        "box": 3
+    },
+    {
+        "name": "Prepare technical talk",
+        "size": "l",
+        "description": "Create slides and rehearse a 30-minute technical presentation.",
+        "box": 3
+    },
+    {
+        "name": "Weekly planning session",
+        "size": "m",
+        "description": "Review goals and plan priorities for the upcoming week.",
+        "box": 4
+    },
+    {
+        "name": "Meditate",
+        "size": "s",
+        "description": "Practice mindfulness meditation for 10–15 minutes.",
+        "box": 4
+    },
+    {
+        "name": "Complete backend feature",
+        "size": "l",
+        "description": "Implement, test, and document a new backend API feature.",
+        "box": 4
+    },
+    {
+        "name": "Clean workspace",
+        "size": "s",
+        "description": "Organize desk and digital workspace to improve productivity.",
+        "box": 4
+    }
+]
