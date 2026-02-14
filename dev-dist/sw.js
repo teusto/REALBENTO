@@ -20,23 +20,21 @@ if (!self.define) {
   let nextDefineUri;
 
   const singleRequire = (uri, parentUri) => {
-    uri = new URL(uri + ".js", parentUri).href;
-    return registry[uri] || (
-      
-        new Promise(resolve => {
-          if ("document" in self) {
-            const script = document.createElement("script");
-            script.src = uri;
-            script.onload = resolve;
-            document.head.appendChild(script);
-          } else {
-            nextDefineUri = uri;
-            importScripts(uri);
-            resolve();
-          }
-        })
-      
-      .then(() => {
+    uri = new URL(uri + '.js', parentUri).href;
+    return (
+      registry[uri] ||
+      new Promise((resolve) => {
+        if ('document' in self) {
+          const script = document.createElement('script');
+          script.src = uri;
+          script.onload = resolve;
+          document.head.appendChild(script);
+        } else {
+          nextDefineUri = uri;
+          importScripts(uri);
+          resolve();
+        }
+      }).then(() => {
         let promise = registry[uri];
         if (!promise) {
           throw new Error(`Module ${uri} didn’t register its module`);
@@ -47,27 +45,29 @@ if (!self.define) {
   };
 
   self.define = (depsNames, factory) => {
-    const uri = nextDefineUri || ("document" in self ? document.currentScript.src : "") || location.href;
+    const uri =
+      nextDefineUri || ('document' in self ? document.currentScript.src : '') || location.href;
     if (registry[uri]) {
       // Module is already loading or loaded.
       return;
     }
     let exports = {};
-    const require = depUri => singleRequire(depUri, uri);
+    const require = (depUri) => singleRequire(depUri, uri);
     const specialDeps = {
       module: { uri },
       exports,
-      require
+      require,
     };
-    registry[uri] = Promise.all(depsNames.map(
-      depName => specialDeps[depName] || require(depName)
-    )).then(deps => {
+    registry[uri] = Promise.all(
+      depsNames.map((depName) => specialDeps[depName] || require(depName))
+    ).then((deps) => {
       factory(...deps);
       return exports;
     });
   };
 }
-define(['./workbox-6e08a099'], (function (workbox) { 'use strict';
+define(['./workbox-6e08a099'], function (workbox) {
+  'use strict';
 
   self.skipWaiting();
   workbox.clientsClaim();
@@ -77,37 +77,52 @@ define(['./workbox-6e08a099'], (function (workbox) { 'use strict';
    * requests for URLs in the manifest.
    * See https://goo.gl/S9QRab
    */
-  workbox.precacheAndRoute([{
-    "url": "registerSW.js",
-    "revision": "3ca0b8505b4bec776b69afdba2768812"
-  }, {
-    "url": "index.html",
-    "revision": "0.40pq3bnr61"
-  }], {});
+  workbox.precacheAndRoute(
+    [
+      {
+        url: 'registerSW.js',
+        revision: '3ca0b8505b4bec776b69afdba2768812',
+      },
+      {
+        url: 'index.html',
+        revision: '0.gvf6k9b6tv4',
+      },
+    ],
+    {}
+  );
   workbox.cleanupOutdatedCaches();
-  workbox.registerRoute(new workbox.NavigationRoute(workbox.createHandlerBoundToURL("index.html"), {
-    allowlist: [/^\/$/]
-  }));
-  workbox.registerRoute(({
-    request
-  }) => request.destination === "document", new workbox.NetworkFirst({
-    "cacheName": "pages",
-    plugins: []
-  }), 'GET');
-  workbox.registerRoute(({
-    request
-  }) => request.destination === "script" || request.destination === "style", new workbox.StaleWhileRevalidate({
-    "cacheName": "assets",
-    plugins: []
-  }), 'GET');
-  workbox.registerRoute(({
-    request
-  }) => request.destination === "image", new workbox.CacheFirst({
-    "cacheName": "images",
-    plugins: [new workbox.ExpirationPlugin({
-      maxEntries: 100,
-      maxAgeSeconds: 2592000
-    })]
-  }), 'GET');
-
-}));
+  workbox.registerRoute(
+    new workbox.NavigationRoute(workbox.createHandlerBoundToURL('index.html'), {
+      allowlist: [/^\/$/],
+    })
+  );
+  workbox.registerRoute(
+    ({ request }) => request.destination === 'document',
+    new workbox.NetworkFirst({
+      cacheName: 'pages',
+      plugins: [],
+    }),
+    'GET'
+  );
+  workbox.registerRoute(
+    ({ request }) => request.destination === 'script' || request.destination === 'style',
+    new workbox.StaleWhileRevalidate({
+      cacheName: 'assets',
+      plugins: [],
+    }),
+    'GET'
+  );
+  workbox.registerRoute(
+    ({ request }) => request.destination === 'image',
+    new workbox.CacheFirst({
+      cacheName: 'images',
+      plugins: [
+        new workbox.ExpirationPlugin({
+          maxEntries: 100,
+          maxAgeSeconds: 2592000,
+        }),
+      ],
+    }),
+    'GET'
+  );
+});
